@@ -152,10 +152,12 @@ if __name__ == '__main__':
       #os.system('clear')
       axes = adxl345.getAxes(True)
       print "ADXL345 on address 0x%x:" % (adxl345.address)
-      #print "   x = %.3fG" % ( axes['x'] )
-      f.write("   x = %.3fG" % ( axes['x'] ))
+      print "   x = %.3fG" % ( axes['x'] )
+      AX= axes['x']
+      #f.write("   x = %.3fG" % ( axes['x'] ))
       f.flush()
       print "   y = %.3fG" % ( axes['y'] )
+      AY=axes['y']
       #f.write ("   y = %.3fG" % ( axes['y'] ))
       print "   z = %.3fG" % ( axes['z'] )
       #f.write ("   z = %.3fG" % ( axes['z'] ))
@@ -167,6 +169,10 @@ if __name__ == '__main__':
       print 'time utc    ' , gpsd.utc,' + ', gpsd.fix.time
       print 'altitude (m)' , gpsd.fix.altitude
       print 'speed (m/s) ' , gpsd.fix.speed
+      SPEED=gpsd.fix.speed
+      IX=index(SPEED, AX)
+      IY=indey(SPEED, AY)
+      INDEK=indek(IX, IY)
       
  
       time.sleep(2) #set to whatever
