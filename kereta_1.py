@@ -5,6 +5,7 @@ import time
 import threading
 import smbus
 from time import sleep
+global nh
 
 # select the correct i2c bus for this revision of Raspberry Pi
 revision = ([l[12:-1] for l in open('/proc/cpuinfo','r').readlines() if l[:8]=="Revision"]+['0000'])[0]
@@ -112,13 +113,14 @@ class GpsPoller(threading.Thread):
     while gpsp.running:
       gpsd.next() #this will continue to loop and grab EACH set of gpsd info to clear the buffer
 
-def index(kecepatan, aX):
-    if (kecepatan >= 80):
-        nh=15//aX
-    elif (kecepatan >= 40 and 80 > kecepatan):
-        nh=(3 * kecepatan) // (16 * ax)
-    elif (40 > kecepatan):
-        nh=0;
+def index(SPEED, AX):
+
+    if (SPEED >= 80):
+        nh=15//AX
+    elif (SPEED >= 40 and 80 > SPEED):
+        nh=(3 * SPEED) // (16 * AX)
+    elif (40 > SPEED):
+        nh=0
     return nh
 
 def indey(kecepatan, ay):
@@ -148,7 +150,7 @@ if __name__ == '__main__':
   try:
     gpsp.start() # start it up
     adxl345 = ADXL345()
-    f = open('data.txt','a',os.O_NONBLOCK)
+    #f = open('data.txt','a',os.O_NONBLOCK)
     while True:
       #It may take a second or two to get good data
       #print gpsd.fix.latitude,', ',gpsd.fix.longitude,'  Time: ',gpsd.utc
@@ -159,7 +161,7 @@ if __name__ == '__main__':
       print "   x = %.3fG" % ( axes['x'] )
       AX= axes['x']
       #f.write("   x = %.3fG" % ( axes['x'] ))
-      f.flush()
+      #f.flush()
       print "   y = %.3fG" % ( axes['y'] )
       AY=axes['y']
       #f.write ("   y = %.3fG" % ( axes['y'] ))
@@ -173,14 +175,16 @@ if __name__ == '__main__':
       print 'time utc    ' , gpsd.utc,' + ', gpsd.fix.time
       print 'altitude (m)' , gpsd.fix.altitude
       print 'speed (m/s) ' , gpsd.fix.speed
-      SPEED=gpsd.fix.speed
-      IX=index(SPEED, AX)
-      IY=indey(SPEED, AY)
-      INDEK=indek(IX, IY)
-      Vmax=max_kec(INDEX, SPEED)
+
+    SPEED=gpsd.fix.speed
+    IX=index(SPEED, AX)
+    print IX
+    IY=indey(SPEED, AY)
+    NDEK=indek(IX, IY)
+    Vmax=max_kec(INDEX, SPEED)
       
  
-      time.sleep(2) #set to whatever
+    time.sleep(2) #set to whatever
  
   except (KeyboardInterrupt, SystemExit): #when you press ctrl+c
     print "\nKilling Thread..."
