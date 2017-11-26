@@ -139,6 +139,10 @@ def indek (nx, ny):
         n=nx
     return n
 
+def max_kec(N,Vact):
+    VRmax=(Vact/100)*N
+    return VRmax
+
 if __name__ == '__main__':
   gpsp = GpsPoller() # create the thread
   try:
@@ -173,6 +177,7 @@ if __name__ == '__main__':
       IX=index(SPEED, AX)
       IY=indey(SPEED, AY)
       INDEK=indek(IX, IY)
+      Vmax=max_kec(INDEX, SPEED)
       
  
       time.sleep(2) #set to whatever
