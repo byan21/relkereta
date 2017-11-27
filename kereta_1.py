@@ -114,22 +114,24 @@ class GpsPoller(threading.Thread):
       gpsd.next() #this will continue to loop and grab EACH set of gpsd info to clear the buffer
 
 def index(SPEED, AX):
+    nh=0
 
     if (SPEED >= 80):
         nh=15//AX
     elif (SPEED >= 40 and 80 > SPEED):
         nh=(3 * SPEED) // (16 * AX)
     elif (40 > SPEED):
-        nh=0
+        nh=1
     return nh
 
 def indey(kecepatan, ay):
+    ny=0
     if (kecepatan >=80):
         ny=20//ay
     elif (kecepatan >=40 and 80 > kecepatan):
         ny=(4 * kecepatan)//(16* ay)
     elif (40 > kecepatan):
-        ny=0
+        ny=1
     return ny
 
 def indek (nx, ny):
@@ -150,14 +152,15 @@ if __name__ == '__main__':
   try:
     gpsp.start() # start it up
     adxl345 = ADXL345()
-    #f = open('data.txt','a',os.O_NONBLOCK)
+    f = open('data.txt','w')
     while True:
       #It may take a second or two to get good data
       #print gpsd.fix.latitude,', ',gpsd.fix.longitude,'  Time: ',gpsd.utc
  
       #os.system('clear')
+      global AX, AY, SPEED
       axes = adxl345.getAxes(True)
-      print "ADXL345 on address 0x%x:" % (adxl345.address)
+     
       print "   x = %.3fG" % ( axes['x'] )
       AX= axes['x']
       #f.write("   x = %.3fG" % ( axes['x'] ))
@@ -176,15 +179,17 @@ if __name__ == '__main__':
       print 'altitude (m)' , gpsd.fix.altitude
       print 'speed (m/s) ' , gpsd.fix.speed
 
-    SPEED=gpsd.fix.speed
-    IX=index(SPEED, AX)
-    print IX
-    IY=indey(SPEED, AY)
-    NDEK=indek(IX, IY)
-    Vmax=max_kec(INDEX, SPEED)
-      
+
+      SPEED=gpsd.fix.speed
+      IX=index(SPEED, AX)
+      IY=indey(SPEED, AY)
+      print 'nh = ' ,IX
+      print 'ny = ' , IY
+      INDEK=indek(IX, IY)
+      Vmax=max_kec(INDEK, SPEED)
+      f.write("N %s vmax %s lat %s lng %s \n" %(str(INDEK), str(Vmax), str(gpsd.fix.latitude),str(gpsd.fix.longitude)))
  
-    time.sleep(2) #set to whatever
+      time.sleep(2) #set to whatever
  
   except (KeyboardInterrupt, SystemExit): #when you press ctrl+c
     print "\nKilling Thread..."
@@ -192,3 +197,4 @@ if __name__ == '__main__':
     gpsp.join() # wait for the thread to finish what it's doing
   print "Done.\nExiting."
 
+    
