@@ -6,6 +6,9 @@ import threading
 import smbus
 from time import sleep
 global nh
+import thread
+import MySQLdb
+
 
 # select the correct i2c bus for this revision of Raspberry Pi
 revision = ([l[12:-1] for l in open('/proc/cpuinfo','r').readlines() if l[:8]=="Revision"]+['0000'])[0]
@@ -149,10 +152,11 @@ def max_kec(N,Vact):
 
 if __name__ == '__main__':
   gpsp = GpsPoller() # create the thread
+  
   try:
     gpsp.start() # start it up
     adxl345 = ADXL345()
-    f = open('data.txt','w')
+    f = open('data.txt','w+', os.O_NONBLOCK)
     while True:
       #It may take a second or two to get good data
       #print gpsd.fix.latitude,', ',gpsd.fix.longitude,'  Time: ',gpsd.utc
@@ -187,9 +191,27 @@ if __name__ == '__main__':
       print 'ny = ' , IY
       INDEK=indek(IX, IY)
       Vmax=max_kec(INDEK, SPEED)
-      f.write("N %s vmax %s lat %s lng %s \n" %(str(INDEK), str(Vmax), str(gpsd.fix.latitude),str(gpsd.fix.longitude)))
- 
-      time.sleep(2) #set to whatever
+      indeks=str(INDEK)
+      vmaxs=str(Vmax)
+      if (vmaxs == 'nan'):
+          vmaxs = '0.0'
+      lats=str(gpsd.fix.latitude)
+      lots=str(gpsd.fix.longitude)
+      f.write("N %s vmax %s lat %s lng %s \n" %( indeks, vmaxs, lats,lots))
+      db = MySQLdb.connect(host="sql143.main-hosting.eu",   # your host, usually localhost
+                         user="u745172280_byan",         # your username
+                         passwd="21byan21",  # your password
+                         db="u745172280_ta")        # name of the data base
+      cur = db.cursor()
+      try:
+        cur.execute("INSERT INTO masuk (indek, vmax, lat, lon) VALUES (%s,%s,%s,%s)",(indeks, vmaxs, lats,lots))
+        db.commit()
+      except:
+        db.rollback()
+      db.close()
+      
+      
+      time.sleep(1) #to whatever
  
   except (KeyboardInterrupt, SystemExit): #when you press ctrl+c
     print "\nKilling Thread..."
