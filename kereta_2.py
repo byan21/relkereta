@@ -198,6 +198,7 @@ if __name__ == '__main__':
       lats=str(gpsd.fix.latitude)
       lots=str(gpsd.fix.longitude)
       f.write("%s,%s,%s,%s\n" %( indeks, vmaxs, lats,lots))
+      f.flush()
       time.sleep(1) #to whatever
  
   except (KeyboardInterrupt, SystemExit): #when you press ctrl+c
