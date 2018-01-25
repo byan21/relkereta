@@ -174,14 +174,14 @@ if __name__ == '__main__':
       #f.write ("   y = %.3fG" % ( axes['y'] ))
       print "   z = %.3fG" % ( axes['z'] )
       #f.write ("   z = %.3fG" % ( axes['z'] ))
-      print
-      print ' GPS reading'
-      print '----------------------------------------'
-      print 'latitude    ' , gpsd.fix.latitude
-      print 'longitude   ' , gpsd.fix.longitude
-      print 'time utc    ' , gpsd.utc,' + ', gpsd.fix.time
-      print 'altitude (m)' , gpsd.fix.altitude
-      print 'speed (m/s) ' , gpsd.fix.speed
+      #print
+      # print ' GPS reading'
+      #print '----------------------------------------'
+      #print 'latitude    ' , gpsd.fix.latitude
+      #print 'longitude   ' , gpsd.fix.longitude
+      #print 'time utc    ' , gpsd.utc,' + ', gpsd.fix.time
+      #print 'altitude (m)' , gpsd.fix.altitude
+      #print 'speed (m/s) ' , gpsd.fix.speed
 
 
       SPEED=gpsd.fix.speed
@@ -199,7 +199,7 @@ if __name__ == '__main__':
       lots=str(gpsd.fix.longitude)
       f.write("%s,%s,%s,%s\n" %( indeks, vmaxs, lats,lots))
       f.flush()
-      time.sleep(1) #to whatever
+      time.sleep(1.5) #to whatever
  
   except (KeyboardInterrupt, SystemExit): #when you press ctrl+c
     print "\nKilling Thread..."
