@@ -61,7 +61,7 @@ class Application(ttk.Notebook):
         tab2 = ttk.Frame(self)
         tab3 = ttk.Frame(self)
         
-        self.add(tab1, text = "Tab 1")
+        self.add(tab1, text = "Install")
         self.add(tab2, text = "Tab 2")
         self.add(tab3, text = "Tab 3")
 
