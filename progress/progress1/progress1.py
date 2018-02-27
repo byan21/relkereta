@@ -65,46 +65,51 @@ def max_kec(N,Vact):
     return VRmax
 
 while(True):
-    gpsp = GpsPoller()
-    f = open('data.txt','a', os.O_NONBLOCK)
-    try:
-        gpsp.start() # start it up
-        while True:
-            latitude = gpsd.fix.latitude
-            longitude = gpsd.fix.longitude
-            waktu = gpsd.utc,' + ', gpsd.fix.time
-            va = gpsd.fix.speed
-            sats = gpsd.satellites
+  gpsp = GpsPoller()
+  f = open('data1.txt','a', os.O_NONBLOCK)
+  try:
+      gpsp.start() # start it up
+      while True:
+          latitude = gpsd.fix.latitude
+          longitude = gpsd.fix.longitude
+          waktu = gpsd.utc,' + ', gpsd.fix.time
+          va = gpsd.fix.speed * 3.6
+          sats = gpsd.satellites
             
             #os.system('clear')
-            print 'latitude    ' , latitude
-            print 'longitude   ' , longitude
-            print 'time utc    ' , waktu
-            print 'speed (m/s) ' , va
+          print 'latitude    ' , latitude
+          print 'longitude   ' , longitude
+          print 'time utc    ' , waktu
+          print 'speed (m/s) ' , va
             #print 'sats        ' , sats
             
-            x, y, z = accelerometer.get_3_axis_adjusted()
-            ('x: ', x, 'y: ', y, 'z: ', z)
+          x, y, z = accelerometer.get_3_axis_adjusted()
+          ('x: ', x, 'y: ', y, 'z: ', z)
             #print('pitch: ', accelerometer.get_pitch())
-            print 'X ' , x
-            print 'y ' , y
-            IX=index(va, x)
-            IY=indey(va, y)
-            print 'nh = ' ,IX
-            print 'ny = ' , IY
-            INDEK=indek(IX,IY)
-            Vmax=max_kec(INDEK, va)
-            indeks=str(INDEK)
-            vmaxs=str(Vmax)
-            if (vmaxs == 'nan'):
-                vmaxs = '0.0'
-            f.write("%s,%s,%s,%s\n" %( indeks, vmaxs, latitude,longitude))
-            f.flush()
-            time.sleep(1)
-            
-            
-    except (KeyboardInterrupt, SystemExit): #when you press ctrl+c
-        print "\nKilling Thread..."
-        gpsp.running = False
-        gpsp.join() # wait for the thread to finish what it's doing
-    print "Done.\nExiting."
+          xa=abs(x)
+          ya=abs(y)
+          za=abs(z)
+          
+          print 'X ' , xa
+          print 'y ' , ya
+          print 'z ' , za
+          IX=index(va, xa)
+          IY=index(va, ya)
+          IZ=indey(va, za)
+          print 'nx = ' , IX
+          print 'ny = ' , IY
+          print 'nz = ' , IZ
+          #INDEK=indek(IX,IY)
+          #Vmax=max_kec(INDEK, va)
+          #indeks=str(INDEK)
+          #vmaxs=str(Vmax)
+          if (vmaxs == 'nan'):
+              vmaxs = '0.0'
+          f.write("%s,%s,%s,%s,%s,%s,%s,%s\n" %( x,y,va,indeks, vmaxs, latitude,longitude,waktu))
+          f.flush()
+          time.sleep(1)
+  except (KeyboardInterrupt, SystemExit): #when you press ctrl+c
+      print "\nKilling Thread..."
+      gpsp.running = False
+      gpsp.join() # wait for the thread to finish what it's doing
+  print "Done.\nExiting."

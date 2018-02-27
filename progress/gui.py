@@ -81,35 +81,35 @@ def demo():
     
     day_label = schedGraphics.Label(page1, text="Check GPS", font=helv36s)
     day_label.pack()
-    day_label.place(x=0, y=180)
+    day_label.place(x=0, y=115)
     
     D = Tkinter.Button(page1, text ="Check", command = helloCallBack, width=10, height=2)
-    D.place(x=80, y=220)
+    D.place(x=80, y=145)
     
     day_label = schedGraphics.Label(page1, text="Kill GPS", font=helv36s)
     day_label.pack()
-    day_label.place(x=0, y=260)
+    day_label.place(x=0, y=195)
     
     E = Tkinter.Button(page1, text ="Kill", command = helloCallBack, width=10, height=2, activebackground="red")
-    E.place(x=80, y=300)
+    E.place(x=80, y=225)
     
     day_label = schedGraphics.Label(page1, text="SETUP ACCELERO", font=helv36)
     day_label.pack()
-    day_label.place(x=0, y=370)
+    day_label.place(x=0, y=285)
     
     day_label = schedGraphics.Label(page1, text="Check Accelero", font=helv36s)
     day_label.pack()
-    day_label.place(x=0, y=410)
+    day_label.place(x=0, y=315)
     
     F = Tkinter.Button(page1, text ="Check", command = helloCallBack, width=10, height=2)
-    F.place(x=80, y=450)
+    F.place(x=80, y=345)
     
     day_label = schedGraphics.Label(page1, text="Kalibrasi Accelero", font=helv36s)
     day_label.pack()
-    day_label.place(x=0, y=490)
+    day_label.place(x=0, y=390)
     
     F = Tkinter.Button(page1, text ="Kalibrasi", command = helloCallBack, width=10, height=2)
-    F.place(x=80, y=530)
+    F.place(x=80, y=420)
     
 
 
