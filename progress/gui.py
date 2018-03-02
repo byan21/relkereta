@@ -3,6 +3,8 @@ import Tkinter
 import ttk
 import tkFont
 import tkMessageBox
+import os
+from subprocess import call 
 
 
 def demo():
@@ -16,6 +18,19 @@ def demo():
         button.pack()
     def helloCallBack():
         tkMessageBox.showinfo( "Hello Python", "Hello World")
+    def test():
+        os.system("gnome-terminal -x python cmd_gps.py")
+##        os.system("python cmd_gps.py")
+##        os.system("sudo systemctl stop gpsd.socket")
+##        os.system("sudo systemctl disable gpsd.socket")
+##        s.system("sudo gpsd /dev/ttyUSB0 -F /var/run/gpsd.sock")
+##        os.system("cgps -s")
+##        call(["sudo systemctl stop gpsd.socket"])
+##        call(["sudo systemctl disable gpsd.socket"])
+##        call(["sudo gpsd /dev/ttyUSB0 -F /var/run/gpsd.sock"])
+##        call(["cgps -s"])
+##        call(["python", "cmd_gps.py"])
+        
    
     menubar = Menu(root)
     filemenu = Menu(menubar, tearoff=0)
@@ -73,7 +88,7 @@ def demo():
     day_label.pack()
     day_label.place(x=0, y=35)
     
-    B = Tkinter.Button(page1, text ="USB", command = helloCallBack, width=10, height=2)
+    B = Tkinter.Button(page1, text ="USB", command = test, width=10, height=2)
     B.place(x=20, y=65)
     
     C = Tkinter.Button(page1, text ="UART", command = helloCallBack, width=10, height=2)
