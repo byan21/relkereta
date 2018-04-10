@@ -3,10 +3,19 @@ import Tkinter
 import ttk
 import tkFont
 import tkMessageBox
+import ttk
 import os
+import sys
 from subprocess import call
-import matplotlib.pyplot as plt
+from numpy import arange, sin, pi
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
 import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+from matplotlib import style
+import time
+
 
 
 
@@ -14,6 +23,9 @@ def demo():
     #root = tk.Tk()
     schedGraphics = Tkinter
     root = schedGraphics.Tk()
+    root.style=ttk.Style()
+    root.style.theme_use("clam")
+    
     
     def donothing():
         filewin = Toplevel(root)
@@ -23,8 +35,6 @@ def demo():
         tkMessageBox.showinfo( "Hello Python", "Hello World")
     def test():
         os.system("gnome-terminal -x python cmd_gps.py")
-    def I2C_TEST():
-        os.system("gnome-terminal -x python i2c_test.py")
 ##        os.system("python cmd_gps.py")
 ##        os.system("sudo systemctl stop gpsd.socket")
 ##        os.system("sudo systemctl disable gpsd.socket")
@@ -35,7 +45,8 @@ def demo():
 ##        call(["sudo gpsd /dev/ttyUSB0 -F /var/run/gpsd.sock"])
 ##        call(["cgps -s"])
 ##        call(["python", "cmd_gps.py"])
-        
+    def run_sys():
+        execfile("progress2.py")
    
     menubar = Menu(root)
     filemenu = Menu(menubar, tearoff=0)
@@ -103,7 +114,7 @@ def demo():
     day_label.pack()
     day_label.place(x=0, y=115)
     
-    D = Tkinter.Button(page1, text ="Check", command = I2C_TEST, width=10, height=2)
+    D = Tkinter.Button(page1, text ="Check", command = helloCallBack, width=10, height=2)
     D.place(x=80, y=145)
     
     day_label = schedGraphics.Label(page1, text="Kill GPS", font=helv36s)
@@ -121,7 +132,7 @@ def demo():
     day_label.pack()
     day_label.place(x=0, y=315)
     
-    F = Tkinter.Button(page1, text ="Check", command = I2C_TEST, width=10, height=2)
+    F = Tkinter.Button(page1, text ="Check", command = helloCallBack, width=10, height=2)
     F.place(x=80, y=345)
     
     day_label = schedGraphics.Label(page1, text="Kalibrasi Accelero", font=helv36s)
@@ -141,7 +152,7 @@ def demo():
     day_label.pack()
     day_label.place(x=0, y=100)
     
-    G = Tkinter.Button(page2, text ="Start", command = helloCallBack, width=16, height=4)
+    G = Tkinter.Button(page2, text ="Start", command = run_sys, width=16, height=4)
     G.place(x=80, y=140)
     
     day_label = schedGraphics.Label(page2, text="Kirim data", font=helv36s)
@@ -150,23 +161,63 @@ def demo():
     
     G = Tkinter.Button(page2, text ="Kirim", command = helloCallBack, width=16, height=4)
     G.place(x=80, y=260)
-    
-    
-    canvas = schedGraphics.Canvas(root, width=900, height=universal_height)
-    canvas.create_rectangle(50, 500, 300, 600, fill="red")
-    canvas.grid(column=1, row=0)
-    t = np.arange(0.0, 2.0, 0.01)
-    s = 1 + np.sin(2*np.pi*t)
-    plt.plot(t, s)
-    plt.xlabel('time (s)')
-    plt.ylabel('voltage (mV)')
-    plt.title('About as simple as it gets, folks')
-    plt.grid(True)
-    plt.savefig("test.png")
-    plt.show()
+    style.use('ggplot')
+    # plt.ion()
+    fig = plt.figure()
+    ax1 = fig.add_subplot(1, 2, 1)
+    ax2 = fig.add_subplot(1, 2, 2)
+    canvas = FigureCanvasTkAgg(fig, master=root)
+    canvas.get_tk_widget().grid(column=5, row=0)
+    canvas_free = schedGraphics.Canvas(root, width=200, height=universal_height)
 
+    # canvas_free.create_rectangle(10, 50 , 300, 600, fill="red")
+
+    # canvas_free.grid(column=10, row=0)
+
+
+    def animate(i):
+        graph_data = open('number.txt', 'r',os.O_NONBLOCK).read()
+        lines = graph_data.split('\n')
+        batas = len(lines)-5
+        ix = []
+        xs = []
+        ys = []
+        zs = []
+        vs = []
+        for line in lines[batas:]:
+            if len(line) > 1:
+                i, x, y, z, v, lat, lon = line.split(',')
+                ix.append(int(i))
+                xs.append(float(x))
+                ys.append(float(y))
+                zs.append(float(z))
+                vs.append(float(v))
+            ax1.clear()
+            ax1.plot(ix, ys, label="Horizontal", marker='o')
+            ax1.plot(ix, zs, label="Vertikal", marker='o')
+            ax1.plot(ix, xs, label="Depan", marker='o')
+            ax1.set_ylim(-2, 2)
+            ax1.set_xlabel('Data ke-', fontsize=8)
+            ax1.set_ylabel('Nilai getar (g)', fontsize=8)
+            ax1.legend()
+            ax1.set_facecolor('xkcd:salmon')
+            ax1.set_title("Grafik getaran")
+            ax2.clear()
+            ax2.plot(ix, vs, label="kecepatan aktual", marker='o', color='yellow')
+            ax2.set_ylim(0,100)
+            ax2.set_xlabel('Data ke-', fontsize=8)
+            ax2.set_ylabel('Nilai keceoatan(km/h)', fontsize=8)
+            ax2.legend()
+            ax2.set_title("Grafik kecepatan")
+
+    ani = animation.FuncAnimation(fig, animate,  interval=1, repeat=True)
+    # plt.show()
 
     root.mainloop()
 
 if __name__ == "__main__":
-    demo()
+    try:
+        demo()
+    except:
+        sys.exit(0) #exit bro 
+        root.destroy()

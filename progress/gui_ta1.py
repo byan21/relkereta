@@ -43,6 +43,8 @@ def demo():
 ##        call(["sudo gpsd /dev/ttyUSB0 -F /var/run/gpsd.sock"])
 ##        call(["cgps -s"])
 ##        call(["python", "cmd_gps.py"])
+    def start():
+        os.sytem("gnome-terminal -x python run_system.py")
         
    
     menubar = Menu(root)
@@ -149,7 +151,7 @@ def demo():
     day_label.pack()
     day_label.place(x=0, y=100)
     
-    G = Tkinter.Button(page2, text ="Start", command = helloCallBack, width=16, height=4)
+    G = Tkinter.Button(page2, text ="Start", command = start, width=16, height=4)
     G.place(x=80, y=140)
     
     day_label = schedGraphics.Label(page2, text="Kirim data", font=helv36s)
@@ -160,8 +162,8 @@ def demo():
     G.place(x=80, y=260)
     style.use('ggplot')
     fig = plt.figure()
-    ax1 = fig.add_subplot(2, 1, 1)
-    ax2 = fig.add_subplot(2, 1, 2)
+    ax1 = fig.add_subplot(1, 2, 1)
+    ax2 = fig.add_subplot(1, 2, 2)
     canvas = FigureCanvasTkAgg(fig, master=root)
     canvas.get_tk_widget().grid(column=12, row=0)
 
@@ -171,31 +173,31 @@ def demo():
         lines = graph_data.split('\n')
         batas = len(lines)-5
         xs = []
-        ys = []
+        ix = []
         zs = []
         vs = []
         for line in lines[batas:]:
             if len(line) > 1:
-                x, y, z, v = line.split(',')
+                i, x, z, v, lat, lon= line.split(',')
+                ix.append(int(i))
                 xs.append(float(x))
-                ys.append(float(y))
                 zs.append(float(z))
                 vs.append(float(v))
             ax1.clear()
-            ax1.plot(xs, ys, label="Horizontal", marker='o')
-            ax1.plot(xs, zs, label="Vertikal", marker='o')
+            ax1.plot(ix, xs, label="Horizontal", marker='o')
+            ax1.plot(ix, zs, label="Vertikal", marker='o')
             ax1.set_xlabel('Data ke-', fontsize=8)
             ax1.set_ylabel('Nilai getar (g)', fontsize=8)
             ax1.legend()
             ax1.set_title("Grafik getaran")
             ax2.clear()
-            ax2.plot(xs, vs, label="kecepatan aktual", marker='o', color='yellow')
+            ax2.plot(ix, vs, label="kecepatan aktual", marker='o', color='yellow')
             ax2.set_xlabel('Data ke-', fontsize=8)
             ax2.set_ylabel('Nilai keceoatan(km/h)', fontsize=8)
             ax2.legend()
             ax2.set_title("Grafik kecepatan")
 
-    ani = animation.FuncAnimation(fig, animate, interval=1000)
+    ani = animation.FuncAnimation(fig, animate, interval=500)
     # plt.show()
 
     root.mainloop()
