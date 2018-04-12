@@ -33,7 +33,7 @@ class GpsPoller(threading.Thread):
 
 while(True):
   gpsp = GpsPoller()
-  f = open('coba.txt','a', os.O_NONBLOCK)
+  f = open('log.txt','a', os.O_NONBLOCK)
   try:
       gpsp.start() # start it up
       while True:
@@ -41,14 +41,15 @@ while(True):
           latitude = gpsd.fix.latitude
           longitude = gpsd.fix.longitude
           waktu = gpsd.utc,' + ', gpsd.fix.time
-          va = gpsd.fix.speed * 3.6
+          kec= gpsd.fix.speed
+          va = kec * 3.6
           sats = gpsd.satellites
             
             #os.system('clear')
           print 'latitude    ' , latitude
           print 'longitude   ' , longitude
           print 'time utc    ' , waktu
-          print 'speed (m/s) ' , va
+          print 'speed (Km/jam) ' , va
             #print 'sats        ' , sats
             
           x, y, z = accelerometer.get_3_axis_adjusted()
@@ -73,7 +74,7 @@ while(True):
           #vmaxs=str(Vmax)
           f.write("%s,%s,%s,%s,%s,%s,%s\n" %(i,x,y,z,va,latitude,longitude))
           f.flush()
-          time.sleep(1)
+          time.sleep(2/kec)
   except (KeyboardInterrupt, SystemExit): #when you press ctrl+c
       print "\nKilling Thread..."
       gpsp.running = False
