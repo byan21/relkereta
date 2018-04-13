@@ -50,6 +50,12 @@ def demo():
     def run_sys():
         #execfile("progress2.py")
         os.system("gnome-terminal -x python progress2.py")
+    def send_data():
+        os.system("gnome-terminal -x python send_data_new.py")
+        
+    def tambah_id():
+        file = open("add_id","w")
+        file.write(HE.get()+','+IE.get())
    
     menubar = Menu(root)
     filemenu = Menu(menubar, tearoff=0)
@@ -85,6 +91,7 @@ def demo():
     universal_height = 500
     helv36 = tkFont.Font(family="Helvetica",size=20,weight="bold")
     helv36s = tkFont.Font(family="Helvetica",size=14)
+    helv32s = tkFont.Font(family="Helvetica",size=12)
 
     nb = ttk.Notebook(root)
 
@@ -92,11 +99,11 @@ def demo():
     # first page, which would get widgets gridded into it
     page1 = ttk.Frame(nb, width=400,height = universal_height)
     # second page
-    page2 = ttk.Frame(nb,width = 400,height = universal_height)
+    #page2 = ttk.Frame(nb,width = 400,height = universal_height)
     
 
     nb.add(page1, text='SETUP')
-    nb.add(page2, text='RUN')
+    #nb.add(page2, text='RUN')
     nb.grid(column=0)
 
     day_label = schedGraphics.Label(page1, text="Pengaturan GPS", font=helv36s)
@@ -123,36 +130,27 @@ def demo():
     F = Tkinter.Button(page1, text ="Kalibrasi", command = helloCallBack, width=10, height=2)
     F.place(x=210, y=135)
     
-    H = schedGraphics.Label(page1, text="Id Petugas",font=helv36s)
-    H.pack(side = LEFT)
-    HE = schedGraphics.Entry(page1, bd=5)
-    HE.pack(side= LEFT)
+    H = schedGraphics.Label(page1, text="ID Petugas",font=helv32s)
+    H.place(x=20,y=200)
+    HE = schedGraphics.Entry(page1, bd=1)
+    HE.place(x=110, y=200)
     
-    I = schedGraphics.Label(page1, text="Id Petugas",font=helv36s)
-    I.pack(side = LEFT)
-    IE = schedGraphics.Entry(page1, bd=5)
-    IE.pack(side= LEFT)
+    I = schedGraphics.Label(page1, text="ID Rute",font=helv32s)
+    I.place(x=20,y=235)
+    IE = schedGraphics.Entry(page1, bd=1)
+    IE.place(x=110, y=235)
+    
+    J = Tkinter.Button(page1, text ="Tambahkan", command = tambah_id, width=10, height=2)
+    J.place(x=265, y=208)
     
     
+    K = Tkinter.Button(page1,text="Run Program", width =20, height=4, command = run_sys)
+    K.place(x=25, y=300)
 
-
-    day_label = schedGraphics.Label(page2, text="Program Utama", font=helv36)
-    day_label.pack()
-    day_label.place(x=0, y=30)
+    L = Tkinter.Button(page1,text="Send Data", width =20, height=4 command = )
+    L.place(x=215, y=300)
     
-    day_label = schedGraphics.Label(page2, text="Start/stop", font=helv36s)
-    day_label.pack()
-    day_label.place(x=0, y=100)
     
-    G = Tkinter.Button(page2, text ="Start", command = run_sys, width=16, height=4)
-    G.place(x=80, y=140)
-    
-    day_label = schedGraphics.Label(page2, text="Kirim data", font=helv36s)
-    day_label.pack()
-    day_label.place(x=0, y=220)
-    
-    G = Tkinter.Button(page2, text ="Kirim", command = helloCallBack, width=16, height=4)
-    G.place(x=80, y=260)
     style.use('ggplot')
     # plt.ion()
     fig = plt.figure()
