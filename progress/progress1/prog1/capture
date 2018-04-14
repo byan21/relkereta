@@ -1,0 +1,19 @@
+sudo tcpdump dst port 3306
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on wlan0, link-type EN10MB (Ethernet), capture size 262144 bytes
+20:30:25.690227 IP 192.168.100.114.38960 > 185.224.137.7.mysql: Flags [S], seq 4223983783, win 29200, options [mss 1460,sackOK,TS val 430269 ecr 0,nop,wscale 7], length 0
+20:30:25.962681 IP 192.168.100.114.38960 > 185.224.137.7.mysql: Flags [.], ack 2052733035, win 229, options [nop,nop,TS val 430296 ecr 504606920], length 0
+20:30:26.235741 IP 192.168.100.114.38960 > 185.224.137.7.mysql: Flags [.], ack 94, win 229, options [nop,nop,TS val 430324 ecr 504607191], length 0
+20:30:26.237350 IP 192.168.100.114.38960 > 185.224.137.7.mysql: Flags [P.], seq 0:211, ack 94, win 229, options [nop,nop,TS val 430324 ecr 504607191], length 211
+20:30:26.508389 IP 192.168.100.114.38960 > 185.224.137.7.mysql: Flags [P.], seq 211:232, ack 105, win 229, options [nop,nop,TS val 430351 ecr 504607466], length 21
+20:30:26.762214 IP 192.168.100.114.38960 > 185.224.137.7.mysql: Flags [P.], seq 232:332, ack 116, win 229, options [nop,nop,TS val 430376 ecr 504607736], length 100
+20:30:27.010571 IP 192.168.100.114.38960 > 185.224.137.7.mysql: Flags [P.], seq 332:350, ack 129, win 229, options [nop,nop,TS val 430401 ecr 504607990], length 18
+20:30:27.267327 IP 192.168.100.114.38960 > 185.224.137.7.mysql: Flags [P.], seq 350:361, ack 373, win 237, options [nop,nop,TS val 430427 ecr 504608239], length 11
+20:30:27.525356 IP 192.168.100.114.38960 > 185.224.137.7.mysql: Flags [P.], seq 361:366, ack 384, win 237, options [nop,nop,TS val 430453 ecr 504608496], length 5
+20:30:27.525563 IP 192.168.100.114.38960 > 185.224.137.7.mysql: Flags [F.], seq 366, ack 384, win 237, options [nop,nop,TS val 430453 ecr 504608496], length 0
+20:30:27.791261 IP 192.168.100.114.38960 > 185.224.137.7.mysql: Flags [.], ack 385, win 237, options [nop,nop,TS val 430479 ecr 504608760], length 0
+clear
+^C
+11 packets captured
+11 packets received by filter
+0 packets dropped by kernel
