@@ -3,7 +3,7 @@ import time
 import MySQLdb
 from math import radians, cos, sin, asin, sqrt
 
-f = open('log.txt', 'r', os.O_NONBLOCK)
+f = open('Da1.txt', 'r', os.O_NONBLOCK)
 n=0
 
 lat = 0.0
