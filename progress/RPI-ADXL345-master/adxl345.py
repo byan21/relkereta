@@ -194,7 +194,7 @@ class ADXL345(object):
             print("******************************************")
             print("please put the sensor to ", axis, " axis")
             for i in range(15, -1, -1):
-                time.sleep(1)
+                time.sleep(3)
                 print(axis, " will start in ", str(i))
 
             del collected_value[:]

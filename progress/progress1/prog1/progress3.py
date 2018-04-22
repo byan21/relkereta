@@ -33,7 +33,7 @@ class GpsPoller(threading.Thread):
 
 while(True):
   gpsp = GpsPoller()
-  f = open('Da1.txt','a', os.O_NONBLOCK)
+  f = open('Dua1.txt','a', os.O_NONBLOCK)
   try:
       gpsp.start() # start it up
       while True:

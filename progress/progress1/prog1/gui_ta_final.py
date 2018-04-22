@@ -147,7 +147,7 @@ def demo():
     K = Tkinter.Button(page1,text="Run Program", width =20, height=4, command = run_sys)
     K.place(x=25, y=300)
 
-    L = Tkinter.Button(page1,text="Send Data", width =20, height=4 command = )
+    L = Tkinter.Button(page1,text="Send Data", width =20, height=4 )
     L.place(x=215, y=300)
     
     

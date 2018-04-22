@@ -33,7 +33,7 @@ class GpsPoller(threading.Thread):
 
 while(True):
   gpsp = GpsPoller()
-  f = open('dz1.txt','a', os.O_NONBLOCK)
+  f = open('duz1.txt','a', os.O_NONBLOCK)
   try:
       gpsp.start() # start it up
       while True:
@@ -44,6 +44,8 @@ while(True):
           kec= gpsd.fix.speed
           va = kec * 3.6
           sats = gpsd.satellites
+          
+          
             
             #os.system('clear')
           print 'latitude    ' , latitude
