@@ -5,7 +5,6 @@ import tkFont
 import tkMessageBox
 import ttk
 import os
-import sys
 from subprocess import call
 from numpy import arange, sin, pi
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -20,14 +19,12 @@ import matplotlib.gridspec as gridspec
 
 
 
-
 def demo():
     #root = tk.Tk()
     schedGraphics = Tkinter
     root = schedGraphics.Tk()
     root.style=ttk.Style()
     root.style.theme_use("clam")
-    
     
     def donothing():
         filewin = Toplevel(root)
@@ -52,10 +49,17 @@ def demo():
         os.system("gnome-terminal -x python progress2.py")
     def send_data():
         os.system("gnome-terminal -x python send_data_new.py")
+    def kill_gps():
+        os.system("gnome-terminal -x python kill_gps.py")
+    def cek_gps():
+        os.system("gnome-terminal -x python kill_gps.py")
+    def cek_aksel():
+        os.system("gnome-terminal -x python cek_accelero.py")
         
     def tambah_id():
         file = open("add_id","w")
         file.write(HE.get()+','+IE.get())
+        
    
     menubar = Menu(root)
     filemenu = Menu(menubar, tearoff=0)
@@ -87,7 +91,7 @@ def demo():
     menubar.add_cascade(label="Help", menu=helpmenu)
     root.config(menu=menubar)
 
-    root.title("Dasboard Indek Rel")
+    root.title("Testing Bot")
     universal_height = 500
     helv36 = tkFont.Font(family="Helvetica",size=20,weight="bold")
     helv36s = tkFont.Font(family="Helvetica",size=14)
@@ -97,14 +101,13 @@ def demo():
 
     # adding Frames as pages for the ttk.Notebook
     # first page, which would get widgets gridded into it
-    page1 = ttk.Frame(nb, width=400,height = universal_height)
-    # second page
-    #page2 = ttk.Frame(nb,width = 400,height = universal_height)
-    
+    page1 = ttk.Frame(nb, width= 400,height = universal_height)
 
     nb.add(page1, text='SETUP')
-    #nb.add(page2, text='RUN')
+
+
     nb.grid(column=0)
+
 
     day_label = schedGraphics.Label(page1, text="Pengaturan GPS", font=helv36s)
     day_label.pack()
@@ -113,10 +116,10 @@ def demo():
     B = Tkinter.Button(page1, text ="Run GPS", command = test, width=10, height=2)
     B.place(x=20, y=40)
     
-    D = Tkinter.Button(page1, text ="Check", command = helloCallBack, width=10, height=2)
+    D = Tkinter.Button(page1, text ="Check", command = cek_gps, width=10, height=2)
     D.place(x=150, y=40)
     
-    E = Tkinter.Button(page1, text ="Stop GPS", command = helloCallBack, width=10, height=2, activebackground="red")
+    E = Tkinter.Button(page1, text ="Stop GPS", command = kill_gps, width=10, height=2, activebackground="red")
     E.place(x=280, y=40)
     
     
@@ -124,33 +127,33 @@ def demo():
     day_label.pack()
     day_label.place(x=0, y=100)
     
-    F = Tkinter.Button(page1, text ="Check", command = helloCallBack, width=10, height=2)
+    F = Tkinter.Button(page1, text ="Check", command = cek_aksel, width=10, height=2)
     F.place(x=80, y=135)
     
     F = Tkinter.Button(page1, text ="Kalibrasi", command = helloCallBack, width=10, height=2)
     F.place(x=210, y=135)
     
     H = schedGraphics.Label(page1, text="ID Petugas",font=helv32s)
-    H.place(x=20,y=200)
+    H.place(x=10,y=200)
     HE = schedGraphics.Entry(page1, bd=1)
-    HE.place(x=110, y=200)
+    HE.place(x=100, y=200)
     
     I = schedGraphics.Label(page1, text="ID Rute",font=helv32s)
-    I.place(x=20,y=235)
+    I.place(x=10,y=235)
     IE = schedGraphics.Entry(page1, bd=1)
-    IE.place(x=110, y=235)
+    IE.place(x=100, y=235)
     
     J = Tkinter.Button(page1, text ="Tambahkan", command = tambah_id, width=10, height=2)
-    J.place(x=265, y=208)
+    J.place(x=280, y=208)
     
     
     K = Tkinter.Button(page1,text="Run Program", width =20, height=4, command = run_sys)
-    K.place(x=25, y=300)
+    K.place(x=5, y=300)
 
     L = Tkinter.Button(page1,text="Send Data", width =20, height=4 )
-    L.place(x=215, y=300)
-    
-    
+    L.place(x=205, y=300)
+
+
     style.use('ggplot')
     # plt.ion()
     fig = plt.figure()
@@ -164,19 +167,14 @@ def demo():
     plt.subplots_adjust(bottom=0.1, left = 0.5, wspace = 0.1)
     gs1.tight_layout(fig, rect=[0,0,1,0.9])
     canvas = FigureCanvasTkAgg(fig, master=root)
-    canvas.get_tk_widget().grid(column= 4, row=0)
-    
-    
+    canvas.get_tk_widget().grid(column= 12, row=0)
 
-    # canvas_free.create_rectangle(10, 50 , 300, 600, fill="red")
-
-    # canvas_free.grid(column=10, row=0)
 
 
     def animate(i):
         graph_data = open('number.txt', 'r',os.O_NONBLOCK).read()
         lines = graph_data.split('\n')
-        batas = len(lines)-5
+        batas = len(lines)-10
         ix = []
         xs = []
         ys = []
@@ -197,7 +195,6 @@ def demo():
             ax1.set_ylim(-2, 2)
             ax1.set_ylabel('Nilai getar (g)', fontsize=8)
             ax1.legend()
-            ax1.set_facecolor('black')
             ax1.set_title("Grafik getaran")
             ax2.clear()
             ax2.plot(ix, vs, label="kecepatan aktual", marker='o', color='yellow')
@@ -205,17 +202,14 @@ def demo():
             ax2.set_xlabel('Data ke-', fontsize=8)
             ax2.set_ylabel('Nilai keceoatan(km/h)', fontsize=8)
             ax2.legend()
-            ax2.set_facecolor('black')
             ax2.set_title("Grafik kecepatan")
 
-    ani = animation.FuncAnimation(fig, animate,  interval=1)
+
+
+    ani = animation.FuncAnimation(fig, animate, interval=100)
     # plt.show()
 
     root.mainloop()
 
 if __name__ == "__main__":
-    try:
-        demo()
-    except:
-        sys.exit(0) #exit bro 
-        root.destroy()
+    demo()
