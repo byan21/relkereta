@@ -29,7 +29,7 @@ if __name__ == '__main__':
   gpsp = GpsPoller() # create the thread
   try:
     gpsp.start() # start it up
-    f = open('kecepatan20.txt','a', os.O_NONBLOCK)
+    f = open('kecepatan30.txt','a', os.O_NONBLOCK)
     while True:
       #It may take a second or two to get good data
       #print gpsd.fix.latitude,', ',gpsd.fix.longitude,'  Time: ',gpsd.utc

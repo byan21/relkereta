@@ -74,7 +74,7 @@ while(True):
           #vmaxs=str(Vmax)
           f.write("%s,%s,%s,%s,%s,%s,%s\n" %(i,x,y,z,va,latitude,longitude))
           f.flush()
-          time.sleep(0.1)
+          time.sleep(0.5)
   except (KeyboardInterrupt, SystemExit): #when you press ctrl+c
       print "\nKilling Thread..."
       gpsp.running = False
