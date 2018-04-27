@@ -44,7 +44,7 @@ if __name__ == '__main__':
         print 'longitude   ' , gpsd.fix.longitude
         print 'time utc    ' , gpsd.utc,' + ', gpsd.fix.time
         print 'altitude (m)' , gpsd.fix.altitude
-        print 'speed (m/s) ' , gpsd.fix.speed
+        print 'speed (m/s) ' , gpsd.fix.speed*3.6
         lats=str(gpsd.fix.latitude)
         lots=str(gpsd.fix.longitude)
         vs=str(gpsd.fix.speed)
