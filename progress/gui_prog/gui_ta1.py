@@ -60,6 +60,8 @@ def demo():
     def cek_aksel():
         #os.system("gnome-terminal -x python cek_accelero.py")
         os.system("sudo i2cdetect -y 1")
+    def kalibrasi():("gnome-terminal -x python kalib_aksel.py")
+        os.system 
         
     def tambah_id():
         file = open("add_id.txt","w")
@@ -134,7 +136,7 @@ def demo():
     F = Tkinter.Button(page1, text ="Check", command = cek_aksel, width=10, height=2)
     F.place(x=80, y=135)
     
-    F = Tkinter.Button(page1, text ="Kalibrasi", command = helloCallBack, width=10, height=2)
+    F = Tkinter.Button(page1, text ="Kalibrasi", command = kalibrasi, width=10, height=2)
     F.place(x=210, y=135)
     
     H = schedGraphics.Label(page1, text="ID Petugas",font=helv32s)
