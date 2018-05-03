@@ -33,7 +33,7 @@ class GpsPoller(threading.Thread):
 
 while(True):
   gpsp = GpsPoller()
-  f = open('duz2.txt','a', os.O_NONBLOCK)
+  f = open('Dua1.txt','a', os.O_NONBLOCK)
   try:
       gpsp.start() # start it up
       while True:
@@ -44,8 +44,6 @@ while(True):
           kec= gpsd.fix.speed
           va = kec * 3.6
           sats = gpsd.satellites
-          
-          
             
             #os.system('clear')
           print 'latitude    ' , latitude
@@ -76,7 +74,7 @@ while(True):
           #vmaxs=str(Vmax)
           f.write("%s,%s,%s,%s,%s,%s,%s\n" %(i,x,y,z,va,latitude,longitude))
           f.flush()
-          time.sleep(2/kec)
+          time.sleep(0.5)
   except (KeyboardInterrupt, SystemExit): #when you press ctrl+c
       print "\nKilling Thread..."
       gpsp.running = False
