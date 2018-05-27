@@ -167,7 +167,7 @@ while 1:
                 Az = sum(z)/len(z)
                 Av = sum(v)/len(v)
                 Ae = sum(ep)/len(ep)
-                if(Av>=40):
+                if(Av>=0):
                     IX=index(Ax,Av)
                     IZ=indez(Az,Av)
                     INDEK=nilai_akhir(IX,IZ)
@@ -197,4 +197,4 @@ while 1:
             #     Az = sum(z)/len(z)
             #     Av = sum(v)/len(v)
             #     send(Ax, Ay, Az, Av,lon, lat)
-        time.sleep(10)
+        time.sleep(1)

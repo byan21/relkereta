@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 from Tkinter import *
 import Tkinter
 import ttk
@@ -52,34 +53,36 @@ def demo():
         #execfile("progress2.py")
         os.system("gnome-terminal -x python progress_akhir.py")
     def send_data():
-        os.system("gnome-terminal -x python send_new.py")
+        os.system("gnome-terminal -x python send_log_edit.py")
     def kill_gps():
         os.system("gnome-terminal -x python kill_gps.py")
     def cek_gps():
         os.system("gnome-terminal -x python cek_gps.py")
     def cek_aksel():
-        #os.system("gnome-terminal -x python cek_accelero.py")
-        os.system("sudo i2cdetect -y 1")
+        os.system("gnome-terminal -x python cek_accelero.py")
+        #os.system("sudo i2cdetect -y 1")
     def kalibrasi():
         os.system("gnome-terminal -x python kalib_aksel.py")
     def tambah_id():
         file = open("add_id.txt","w")
         file.write(HE.get()+','+IE.get()+','+ME.get())
         tkMessageBox.showinfo("Input Data","Input data berhasil")
+    def buka_data():
+        os.system("xdg-open /home/pi/Desktop/relkereta/progress/gui_prog_final/gui_railmo/log.txt")
         
         
    
     menubar = Menu(root)
     filemenu = Menu(menubar, tearoff=0)
-    filemenu.add_command(label="New", command=donothing)
-    filemenu.add_command(label="Open", command=donothing)
+    #filemenu.add_command(label="New", command=donothing)
+    #filemenu.add_command(label="Open", command=donothing)
 
     filemenu.add_separator()
 
     filemenu.add_command(label="Exit", command=root.quit)
     menubar.add_cascade(label="File", menu=filemenu)
     editmenu = Menu(menubar, tearoff=0)
-    editmenu.add_command(label="Undo", command=donothing)
+    #editmenu.add_command(label="Undo", command=donothing)
 
     editmenu.add_separator()
 
@@ -88,8 +91,10 @@ def demo():
     #editmenu.add_command(label="Paste", command=donothing)
     #editmenu.add_command(label="Delete", command=donothing)
     #editmenu.add_command(label="Select All", command=donothing)
-
-    #menubar.add_cascade(label="Edit", menu=editmenu)
+    data = Menu(menubar, tearoff=0)
+    data.add_command(label="Data Log", command=buka_data)
+    menubar.add_cascade(label="Data", menu=data)
+    
     helpmenu = Menu(menubar, tearoff=0)
     helpmenu.add_command(label="Help Index", command=donothing)
     helpmenu.add_command(label="About...", command=donothing)
@@ -177,7 +182,7 @@ def demo():
     plt.subplots_adjust(bottom=0.1, left = 0.5, wspace = 0.1)
     gs1.tight_layout(fig, rect=[0,0,1,0.9])
     canvas = FigureCanvasTkAgg(fig, master=root)
-    canvas.get_tk_widget().grid(column= 12, row=0)
+    canvas.get_tk_widget().grid(column= 15, row=0)
 
 
 
@@ -199,15 +204,15 @@ def demo():
                 zs.append(float(z))
                 vs.append(float(v))
             ax1.clear()
-            ax1.plot(ix, ys, label="Horizontal", marker='o')
-            ax1.plot(ix, zs, label="Vertikal", marker='o')
-            ax1.plot(ix, xs, label="Lateral", marker='o', color="green")
+            ax1.plot(ix, ys, label="Horizontal(G)", marker='o')
+            ax1.plot(ix, zs, label="Vertikal(G)", marker='o')
+            ax1.plot(ix, xs, label="Lateral(G)", marker='o', color="green")
             ax1.set_ylim(-2, 2)
             ax1.set_ylabel('Nilai getar (g)', fontsize=8)
             ax1.legend()
             ax1.set_title("Grafik getaran")
             ax2.clear()
-            ax2.plot(ix, vs, label="kecepatan aktual", marker='o', color='black')
+            ax2.plot(ix, vs, label="kecepatan(Km/jam)", marker='o', color='black')
             ax2.set_ylim(0,100)
             ax2.set_xlabel('Data ke-', fontsize=8)
             ax2.set_ylabel('Nilai keceoatan(km/jam)', fontsize=8)

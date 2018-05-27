@@ -4,7 +4,7 @@ import time
 def main():
     try:
         i=0
-        outfile = open ('number.txt','a', os.O_NONBLOCK)
+        outfile = open ('acak.txt','a', os.O_NONBLOCK)
         for count in range (500):
             i+=1
             x = round(random.uniform(0.0,2.0),2)

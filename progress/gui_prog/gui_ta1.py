@@ -177,7 +177,7 @@ def demo():
 
 
     def animate(i):
-        graph_data = open('log.txt', 'r',os.O_NONBLOCK).read()
+        graph_data = open('acak.txt', 'r',os.O_NONBLOCK).read()
         lines = graph_data.split('\n')
         batas = len(lines)-10
         ix = []
@@ -185,9 +185,10 @@ def demo():
         ys = []
         zs = []
         vs = []
-        for line in lines[batas:]:
+        cnt =0
+        for line in lines:
             if len(line) > 1:
-                i, x, y, z, v, lat, lon, epx, waktu = line.split(',')
+                i, x, y, z, v,lat,lon= line.split(',')
                 ix.append(int(i))
                 xs.append(float(x))
                 ys.append(float(y))
@@ -208,10 +209,15 @@ def demo():
             ax2.set_ylabel('Nilai keceoatan(km/jam)', fontsize=8)
             ax2.legend()
             ax2.set_title("Grafik kecepatan")
+            cnt+=1
+            if(cnt>6):
+                ix.pop(0)
+                xs.pop(0)
+                ys.pop(0)
+                zs.pop(0)
+                vs.pop(0)
 
-
-
-    ani = animation.FuncAnimation(fig, animate, interval=100)
+    ani = animation.FuncAnimation(fig, animate, interval=1000)
     # plt.show()
 
     root.mainloop()

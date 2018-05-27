@@ -1,9 +1,10 @@
 [OFFSET]
-z_offset = 30.5
-y_offset = 0
-x_offset = 3.5
+z_offset = 6.5
+y_offset = -13.0
+x_offset = 2.0
 
 [GAIN]
-z_gain = 226.5
-y_gain = 256.5
-x_gain = 256.5
+z_gain = 250.5
+y_gain = 251.5
+x_gain = 251.0
+

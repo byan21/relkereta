@@ -17,6 +17,7 @@ gpsd = None #seting the global variable
  
 os.system('clear') #clear the terminal (optional)
 i=0
+a=5
  
 class GpsPoller(threading.Thread):
   def __init__(self):
@@ -33,15 +34,21 @@ class GpsPoller(threading.Thread):
 
 while(True):
   gpsp = GpsPoller()
-  f = open('log1.txt','a', os.O_NONBLOCK)
+  f = open('log.txt','a', os.O_NONBLOCK)
   try:
     gpsp.start() # start it up
-    time.sleep(5)
+    while(a!=0):
+      sys.stdout.write("Program akan berjalan dalam: %d   \r" % (a))
+      sys.stdout.flush()
+      a-=1
+      time.sleep(1)
     while True:
       i+=1
       latitude = gpsd.fix.latitude
       longitude = gpsd.fix.longitude
-      waktu = gpsd.utc
+      jam = int(gpsd.utc[11:13])+7
+      jams=str(jam)
+      waktu = gpsd.utc[0:10]+' '+jams+gpsd.utc[13:19]
       kec= gpsd.fix.speed
       va = kec * 3.6
       sats = gpsd.satellites
@@ -50,7 +57,7 @@ while(True):
       os.system('clear')
       print 'latitude    ' , latitude
       print 'longitude   ' , longitude
-      print 'time utc    ' , waktu
+      print 'time utc +7   ' , waktu
       print 'speed (Km/jam) ' , va
       print 'epx         ' , gpsd.fix.epx
             
