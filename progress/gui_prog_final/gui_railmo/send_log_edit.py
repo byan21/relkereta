@@ -197,4 +197,4 @@ while 1:
             #     Az = sum(z)/len(z)
             #     Av = sum(v)/len(v)
             #     send(Ax, Ay, Az, Av,lon, lat)
-        time.sleep(1)
+        time.sleep(2)
