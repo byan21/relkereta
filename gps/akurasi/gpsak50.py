@@ -47,7 +47,7 @@ if __name__ == '__main__':
         print 'speed (m/s) ' , gpsd.fix.speed*3.6
         lats=str(gpsd.fix.latitude)
         lots=str(gpsd.fix.longitude)
-        vs=str(gpsd.fix.speed)
+        vs=str(gpsd.fix.speed*3.6)
         f.write("%s,%s,%s\n" %( vs, lats,lots))
         f.flush()
         time.sleep(1) #set to whatever
